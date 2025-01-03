@@ -1,0 +1,29 @@
+name: Generate File on PR Merge
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  generate-file:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v3
+
+      - name: Generate new file
+        run: |
+          echo "Hello, World! This file was generated after merging a PR." > generated_file.txt
+          echo "Pull Request Title: ${{ github.event.pull_request.title }}" >> generated_file.txt
+          echo "Merged by: ${{ github.event.pull_request.merged_by.login }}" >> generated_file.txt
+
+      - name: Commit and push the new file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add generated_file.txt
+          git commit -m "Add generated file after PR merge"
+          git push
