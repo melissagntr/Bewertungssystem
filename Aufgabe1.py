@@ -1,5 +1,5 @@
 #Testaufgabe: Gebe "Hello World" aus
 
-#Test des Workflows 4.0
+#Test des Workflows 5.0
 
 print("")
