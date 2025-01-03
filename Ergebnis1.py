@@ -1,3 +1,3 @@
 #Testaufgabe: Gebe "Hello World" aus
 
-print("")
+print("Hello World")
