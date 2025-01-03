@@ -20,6 +20,8 @@ jobs:
 
       - name: Commit and push the new file
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add generated_file.txt
           git commit -m "Add generated file after PR merge"
           git push
