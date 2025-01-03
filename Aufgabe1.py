@@ -2,4 +2,4 @@
 
 #Test des Workflows 10.0
 
-print("")
+print("Hello")
