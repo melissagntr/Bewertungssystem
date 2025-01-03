@@ -1,1 +1,0 @@
-Hello, World! This file was generated after merging a PR.
