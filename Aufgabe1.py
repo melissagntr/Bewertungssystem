@@ -1,5 +1,6 @@
-#Testaufgabe: Gebe "Hello World" aus
+#Testaufgabe
+# Eingabe einer Zahl und Konvertierung in einen Integer
+zahl = int(input("Gebe eine Zahl an: "))
 
-#Test des Workflows 10.0
-
-print("Hello")
+# Ausgabe der gespeicherten Zahl
+print(f"Du hast die Zahl {zahl} angegeben :)")
