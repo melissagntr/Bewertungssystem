@@ -16,7 +16,7 @@ jobs:
 
       - name: Generate new file
         run: |
-          echo "Hello, World! This file was generated after merging a PR for a third time." > generated_file.txt
+          echo "Die Umsetzung einer neuen Aufgabe hat erfolgreich funktioniert." > generated_file.txt
 
       - name: Commit and push the new file
         run: |
