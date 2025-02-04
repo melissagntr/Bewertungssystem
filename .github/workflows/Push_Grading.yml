@@ -1,25 +1,25 @@
-name: Generate File on PR Merge
+name: Generate Text File on Push
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main  # Der Workflow wird bei Pushes auf den Main-Branch ausgeführt
 
 jobs:
-  generate-file:
+  generate_file:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the code
+      - name: Repository auschecken
         uses: actions/checkout@v3
 
-      - name: Generate new file
-        run: |
-          echo "Die Anpassung des Events hat erfolgreich funktioniert" > generated_file.txt
+      - name: Erstelle eine Textdatei
+        run: echo "Dies ist eine automatisch generierte Datei am $(date)" > generated_file.txt
 
-      - name: Commit and push the new file
+      - name: Füge die Datei dem Repository hinzu und pushe sie
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add generated_file.txt
-          git commit -m "Add generated file after PR merge"
+          git commit -m "Automatisch generierte Datei hinzugefügt"
           git push
