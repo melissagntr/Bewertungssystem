@@ -27,6 +27,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase
           git add result.txt
-          git commit -m "Automatische Überprüfung des Jupyter Notebooks durchgeführt"
+          git commit -m "Automatische Überprüfung des Jupyter Notebooks durchgeführt" --allow-empty
           git push
 
