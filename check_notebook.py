@@ -1,7 +1,6 @@
 import nbformat
 
-# Name der zu überprüfenden Datei
-notebook_file = "Testbook.ipynb"
+notebook_file = "Testbook.ipynb" #Dateiname des Jupyter Notebooks mit studentischer Lösung
 search_marker = "###Aufgabe 1"
 
 def check_notebook_for_task(notebook_path, marker):
@@ -17,10 +16,8 @@ def check_notebook_for_task(notebook_path, marker):
     except Exception as e:
         return f"Fehler beim Lesen des Notebooks: {e}"
 
-# Notebook prüfen
 result = check_notebook_for_task(notebook_file, search_marker)
 
-# Ergebnis in Textdatei schreiben
 with open("result.txt", "w", encoding="utf-8") as f:
     if result is True:
         f.write(f" Die Zelle mit '{search_marker}' wurde gefunden.\n")
