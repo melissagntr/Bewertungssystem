@@ -15,7 +15,7 @@ jobs:
 
       - name: Generate new file
         run: |
-          echo "Die Umsetzung einer neuen Aufgabe hat erfolgreich funktioniert." > generated_file.txt
+          echo "Die Anpassung des Events hat erfolgreich funktioniert" > generated_file.txt
 
       - name: Commit and push the new file
         run: |
