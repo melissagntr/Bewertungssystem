@@ -25,5 +25,3 @@ with open("result.txt", "w", encoding="utf-8") as f:
         f.write(f" Die Zelle mit '{search_marker}' wurde NICHT gefunden.\n")
     else:
         f.write(f" {result}\n")
-
-print("Ergebnis wurde in 'result.txt' gespeichert.")
