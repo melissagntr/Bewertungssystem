@@ -3,7 +3,7 @@ name: Generate Text File on Push
 on:
   push:
     branches:
-      - main  # Der Workflow wird bei Pushes auf den Main-Branch ausgeführt
+      - main
 
 jobs:
   generate_file:
