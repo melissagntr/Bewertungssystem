@@ -26,7 +26,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git stash --include-untracked 
-          git pull --rebase
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, versuche stattdessen einen Merge")
+          git pull --no-rebase
           git stash pop || echo "Kein Stash zum Anwenden"
           git add result.txt
           git commit -m "Automatische Überprüfung des Jupyter Notebooks durchgeführt" --allow-empty
