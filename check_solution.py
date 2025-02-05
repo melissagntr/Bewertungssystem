@@ -5,8 +5,8 @@ notebookDatei = "Testbook.ipynb"
 cellMarker = "###Aufgabe 1" 
 solution = "2" 
 
-def finde_loesung_zelle(notebookDatei, cellMarker):
-    with open(notebookDatei, 'r', encoding='utf-8') as f:
+def finde_loesung_zelle(notebook, marker):
+    with open(notebook, 'r', encoding='utf-8') as f:
         nb = nbformat.read(f, as_version=4)
     
     for cell in nb.cells:
@@ -32,7 +32,7 @@ def schreibe_bewertung(output, erwartet):
             f.write(f"Die Lösung ist falsch. Die richtige Lösung lautet: '{erwartet}' \n")
 
 if __name__ == "__main__":
-    code = finde_aufgaben_zelle(notebookDatei, cellMarker)
+    code = finde_loesung_zelle(notebookDatei, cellMarker)
     
     if code:
         output = fuehre_code_aus(code)
