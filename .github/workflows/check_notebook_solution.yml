@@ -1,4 +1,4 @@
-name: Check Jupyter Notebook for Task
+name: Check Jupyter Notebook for Solution
 
 on:
   push:
