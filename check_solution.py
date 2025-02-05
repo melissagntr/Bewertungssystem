@@ -1,8 +1,8 @@
 import nbformat
 import subprocess
 
-notebookDatei = "Testbook.ipynb"  
-cellMarker = "###Aufgabe 1" 
+notebook_file = "Testbook.ipynb"  
+cell_marker = "###Aufgabe 1" 
 solution = "2" 
 
 def finde_loesung_zelle(notebook, marker):
@@ -32,7 +32,7 @@ def schreibe_bewertung(output, erwartet):
             f.write(f"Die Lösung ist falsch. Die richtige Lösung lautet: '{erwartet}' \n")
 
 if __name__ == "__main__":
-    code = finde_loesung_zelle(notebookDatei, cellMarker)
+    code = finde_loesung_zelle(notebook_file, cell_marker)
     
     if code:
         output = fuehre_code_aus(code)
