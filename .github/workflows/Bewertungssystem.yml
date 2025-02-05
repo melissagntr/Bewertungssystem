@@ -1,0 +1,58 @@
+name: Automatische Bewertung des Jupyter Notebooks
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  check_cell:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v3
+
+      - name: Installiere Abhängigkeiten
+        run: pip install nbformat
+
+      - name: Überprüfe das Jupyter Notebook
+        run: python check_notebook_marker.py
+
+      - name: Konfiguriere Git und pushe die result.txt ins Repository
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, versuche stattdessen einen Merge")
+          git pull --no-rebase
+          git add result.txt
+          git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty
+          git push
+
+  bewerten_notebook:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: check_cell
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v3
+
+      - name: Installiere Abhängigkeiten
+        run: pip install nbformat
+
+      - name: Führe Code aus und bewerte das Ergebnis
+        run: python check_solution.py
+
+      - name: Konfiguriere Git und pushe die Bewertung.txt ins Repository
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, versuche stattdessen einen Merge")
+          git pull --no-rebase
+          git add Bewertung.txt
+          git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty
+          git push
