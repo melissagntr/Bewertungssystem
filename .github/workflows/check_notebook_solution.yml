@@ -1,0 +1,33 @@
+name: Check Jupyter Notebook for Task
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  check_notebook:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v3
+
+      - name: Installiere Abhängigkeiten
+        run: pip install nbformat
+
+      - name: Überprüfe das Jupyter Notebook
+        run: python check_notebook_marker.py
+
+      #- name: Konfiguriere Git und pushe die result.txt ins Repository
+      # run: |
+      #    git config --global user.name "github-actions[bot]"
+       #   git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        #  git stash --include-untracked 
+         # git pull --rebase
+          #git stash pop || echo "Kein Stash zum Anwenden"
+          #git add result.txt
+          git commit -m "Automatische Überprüfung des Jupyter Notebooks durchgeführt" --allow-empty
+          git push
