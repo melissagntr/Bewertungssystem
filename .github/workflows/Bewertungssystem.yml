@@ -18,10 +18,10 @@ jobs:
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
 
-      - name: Überprüfe das Jupyter Notebook
+      - name: Suche nach Markierung im Jupyter Notebook
         run: python check_notebook_marker.py
 
-      - name: Konfiguriere Git und pushe die result.txt ins Repository
+      - name: Pushe die result.txt ins Repository
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -58,7 +58,7 @@ jobs:
       - name: Führe Code aus und bewerte das Ergebnis
         run: python check_solution.py
 
-      - name: Konfiguriere Git und pushe die Bewertung.txt ins Repository
+      - name: Pushe die Bewertung.txt ins Repository
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
