@@ -20,6 +20,11 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git stash --include-untracked || echo "Nichts zum Stashen"
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe stattdessen Merge durch")
+          git pull --no-rebase
+          git stash pop || echo "Kein Stash zum Anwenden"
           git add generated_file.txt
           git commit -m "Automatisch generierte Datei hinzugefügt"
           git push
+
