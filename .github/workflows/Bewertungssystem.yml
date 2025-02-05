@@ -51,8 +51,11 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, versuche stattdessen einen Merge")
+          git add -A
+          git commit -m "Zwischenstand" --allow-empty
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           git pull --no-rebase
           git add Bewertung.txt
           git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty
           git push
+
