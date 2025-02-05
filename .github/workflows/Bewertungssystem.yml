@@ -26,12 +26,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add result.txt
-          git stash --include-untracked || echo "Nichts zum Stashen"
+          git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe stattdessen Merge durch")
           git pull --no-rebase
-          git stash pop || echo "Kein Stash zum Anwenden"
-          git add result.txt
-          git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty
           git push
 
       - name: Speichere result.txt als Artifact
@@ -65,11 +62,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Zwischenstand" --allow-empty
-          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
-          git pull --no-rebase
           git add Bewertung.txt
           git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
+          git pull --no-rebase
           git push
-
