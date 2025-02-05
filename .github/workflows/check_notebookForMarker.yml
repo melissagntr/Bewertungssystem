@@ -19,7 +19,7 @@ jobs:
         run: pip install nbformat
 
       - name: Überprüfe das Jupyter Notebook
-        run: python check_notebook.py
+        run: python check_notebook_marker.py
 
       - name: Konfiguriere Git und pushe die result.txt ins Repository
         run: |
