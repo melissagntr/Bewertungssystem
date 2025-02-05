@@ -31,7 +31,7 @@ jobs:
           git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty
           git push
       - name: Speichere result.txt als Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: result-file
           path: result.txt
@@ -44,7 +44,7 @@ jobs:
 
     steps:
       - name: Lade result.txt herunter
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: result-file
 
