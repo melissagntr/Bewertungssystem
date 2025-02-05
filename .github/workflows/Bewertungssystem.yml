@@ -30,6 +30,11 @@ jobs:
           git add result.txt
           git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty
           git push
+      - name: Speichere result.txt als Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: result-file
+          path: result.txt
 
   bewerten_notebook:
     runs-on: ubuntu-latest
@@ -38,6 +43,11 @@ jobs:
     needs: check_cell
 
     steps:
+      - name: Lade result.txt herunter
+        uses: actions/download-artifact@v3
+        with:
+          name: result-file
+
       - name: Repository auschecken
         uses: actions/checkout@v3
 
