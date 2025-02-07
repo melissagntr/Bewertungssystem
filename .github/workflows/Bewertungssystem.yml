@@ -26,7 +26,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add result.txt
-          git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty
+          git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty --no-verify
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe stattdessen Merge durch")
           git pull --no-rebase
           git push
@@ -63,7 +63,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add Bewertung.txt
-          git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty
+          git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty --no-verify
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           git pull --no-rebase
           git push
