@@ -1,6 +1,6 @@
 Dieses Dokument dient dazu, die einzelnen Zeilen des GitHub Workflows zu erklären.
 
-name: Automatische Bewertung des Jupyter Notebooks 
+    name: Automatische Bewertung des Jupyter Notebooks 
 --> Name des Workflows, welche unter GitHub Actions angezeigt wird.
 
 on:
