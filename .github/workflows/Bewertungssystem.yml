@@ -18,11 +18,11 @@ jobs:
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
 
-      - name: Suche nach Markierung im Jupyter Notebook
-        run: python check_notebook_marker.py
-
       - name: Lösche result.txt
         run: rm -f result.txt
+
+      - name: Suche nach Markierung im Jupyter Notebook
+        run: python check_notebook_marker.py
 
       - name: Pushe die result.txt ins Repository
         run: |
@@ -61,11 +61,11 @@ jobs:
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
 
-      - name: Führe Code aus und bewerte das Ergebnis
-        run: python check_solution.py
-
       - name: Lösche Bewertung.txt
         run: rm -f Bewertung.txt
+
+      - name: Führe Code aus und bewerte das Ergebnis
+        run: python check_solution.py
 
       - name: Pushe die Bewertung.txt ins Repository
         run: |
