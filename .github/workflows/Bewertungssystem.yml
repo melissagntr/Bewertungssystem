@@ -30,12 +30,9 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add result.txt
           git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty --no-verify
-          for attempt in {1..3}
-          do
-            git pull --rebase origin main && git push && break
-            echo "Push-Versuch $attempt fehlgeschlagen. Warte 5 Sekunden und versuche es erneut..."
-            sleep 5
-          done
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
+          git pull --no-rebase
+          git push
           
       - name: Speichere result.txt als Artifact
         uses: actions/upload-artifact@v4
@@ -73,9 +70,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add Bewertung.txt
           git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty --no-verify
-          for attempt in {1..3}
-          do
-            git pull --rebase origin main && git push && break
-            echo "Push-Versuch $attempt fehlgeschlagen. Warte 5 Sekunden und versuche es erneut..."
-            sleep 5
-          done
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
+          git pull --no-rebase
+          git push
