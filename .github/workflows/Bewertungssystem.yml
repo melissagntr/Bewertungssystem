@@ -30,7 +30,7 @@ jobs:
         run: pip install nbformat
 
       - name: Suche nach Markierung im Jupyter Notebook
-        run: python check_notebook_marker.py
+        run: python check_notebook_marker_alt.py
 
       - name: Veränderung des Zeitstempels von result.txt
         run: touch result.txt
@@ -81,7 +81,7 @@ jobs:
         run: pip install nbformat
 
       - name: Führe Code aus und bewerte das Ergebnis
-        run: python check_solution.py
+        run: python check_solution_alt.py
 
       - name: Veränderung des Zeitstempels von Bewertung.txt
         run: touch Bewertung.txt
