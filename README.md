@@ -1,25 +1,25 @@
 Dieses Dokument dient dazu, die einzelnen Zeilen des GitHub Workflows zu erklären.
 
     name: Automatische Bewertung des Jupyter Notebooks 
---> Name des Workflows, welche unter GitHub Actions angezeigt wird.
+    --> Name des Workflows, welche unter GitHub Actions angezeigt wird.
 
-on:
-  push:
-    branches:
-      - main 
---> Definition des Events, welches getriggered werden muss, damit die nachfolgenden Jobs ausgeführt werden
---> bei einem Push auf den main Branch
+    on:
+    push:
+        branches:
+        - main 
+    --> Definition des Events, welches getriggered werden muss, damit die nachfolgenden Jobs ausgeführt werden
+    --> bei einem Push auf den main Branch
 
-jobs:
-  check_cell:
-  --> Name des ersten Jobs
-    runs-on: ubuntu-latest
-    --> Angabe auf welchem Betriebssystem der Job ausgeführt werden soll
-    --> die neueste Version von Ubuntu in einer virutellen Umgebung
-    permissions:
-      contents: write
-      --> Definition von Berechtigungen
-      --> mittels write auf contents erhält der Workflow ein Schreibrecht auf das Repository (um die erstelle Textdatei auf das Repository zu pushen)
+    jobs:
+    check_cell:
+    --> Name des ersten Jobs
+        runs-on: ubuntu-latest
+        --> Angabe auf welchem Betriebssystem der Job ausgeführt werden soll
+        --> die neueste Version von Ubuntu in einer virutellen Umgebung
+        permissions:
+        contents: write
+        --> Definition von Berechtigungen
+        --> mittels write auf contents erhält der Workflow ein Schreibrecht auf das Repository (um die erstelle Textdatei auf das Repository zu pushen)
 
     steps:
     --> da der Job aus mehreren Abfolgen besteht, werden diese in verschiedene Steps unterteilt
@@ -61,12 +61,12 @@ jobs:
           name: result-file
           path: result.txt
 
-  bewerten_notebook:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    needs: check_cell
-    --> diese Job wird erst ausgeführt, wenn der Job mit dem Namen check_cell ausgeführt wurde
+    bewerten_notebook:
+        runs-on: ubuntu-latest
+        permissions:
+        contents: write
+        needs: check_cell
+        --> diese Job wird erst ausgeführt, wenn der Job mit dem Namen check_cell ausgeführt wurde
 
     steps:
       - name: Lade result.txt herunter
