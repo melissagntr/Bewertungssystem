@@ -17,6 +17,8 @@ jobs:
 
       - name: Lösche die result.txt, wenn sie existiert
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           if [ -f result.txt ]; then
             git rm result.txt
             git commit -m "Löschen der Datei result.txt"
@@ -66,6 +68,8 @@ jobs:
 
       - name: Lösche die Bewertung.txt, wenn sie existiert
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           if [ -f Bewertung.txt ]; then
             git rm Bewertung.txt
             git commit -m "Löschen der Datei Bewertung.txt"
