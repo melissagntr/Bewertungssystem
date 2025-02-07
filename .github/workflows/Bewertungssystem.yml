@@ -19,7 +19,12 @@ jobs:
         run: pip install nbformat
 
       - name: Lösche result.txt
-        run: rm -f result.txt
+        run: |
+          echo "Überprüfe, ob result.txt existiert:"
+          ls -l result.txt || echo "result.txt existiert nicht"
+          rm -f result.txt
+          echo "Nach dem Löschen:"
+          ls -l result.txt || echo "result.txt existiert nicht mehr"
 
       - name: Suche nach Markierung im Jupyter Notebook
         run: python check_notebook_marker.py
@@ -58,8 +63,14 @@ jobs:
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
 
-      - name: Lösche Bewertung.txt
-        run: rm -f Bewertung.txt
+      - name: Lösche Bewertung.txt und überprüfe, ob sie wirklich gelöscht wurde
+        run: |
+          echo "Überprüfe, ob Bewertung.txt existiert:"
+          ls -l Bewertung.txt || echo "Bewertung.txt existiert nicht"
+          rm -f Bewertung.txt
+          echo "Nach dem Löschen:"
+          ls -l Bewertung.txt || echo "Bewertung.txt existiert nicht mehr"
+
 
       - name: Führe Code aus und bewerte das Ergebnis
         run: python check_solution.py
