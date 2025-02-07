@@ -1,2 +1,0 @@
-Die Lösung ist falsch. Die richtige Lösung lautet: '2' 
-Die Lösung ist falsch. Die richtige Lösung lautet: 'Hello World' 
