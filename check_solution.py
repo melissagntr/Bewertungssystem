@@ -1,5 +1,9 @@
 import nbformat
 import subprocess
+import os
+#import requests
+#URL = "http://localhost:8888"
+
 
 notebook_file = "Testbook.ipynb" #evtl. dynamisch gestalten: der Student muss den Dateinamen angeben
 # cell_marker = ["###Aufgabe 1", "###Aufgabe 2"]
@@ -9,8 +13,7 @@ solution_per_task = {
     "###Aufgabe 2": "Hello World"
 }
 
-with open("Bewertung.txt", "w", encoding="utf-8") as f:
-    pass
+os.remove("Bewertung.txt") # Löscht die Datei, falls sie schon existiert
 
 def finde_loesung_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
@@ -26,17 +29,30 @@ def fuehre_code_aus(code):
         result = subprocess.run(
             ["python", "-c", code],  
             capture_output=True, text=True, timeout=5
-        )
+        )     
         return result.stdout.strip()
     except Exception as e:
         return f"Fehler: {str(e)}"
+    
+    # headers = {"code": code}
+    # response = requests.post(URL, headers=headers)
+
+    # result = response.text
+    # return result
+
 
 def schreibe_bewertung(output, erwartet):
+    # Da der Output als String herauskommt
+    try:
+        output = eval(output)
+    except:
+        pass
+
     with open("Bewertung.txt", "a", encoding="utf-8") as f:
         if output == erwartet:
-            f.write("Das Ergebnis ist richtig.\n")
+            f.write(f"Das Ergebnis {output} ist richtig.\n")
         else:
-            f.write(f"Die Lösung ist falsch. Die richtige Lösung lautet: '{erwartet}' \n")
+            f.write(f"Die Lösung {output} ist falsch. Die richtige Lösung lautet: {erwartet} \n")
 
 for key in solution_per_task:
     if __name__ == "__main__":
@@ -48,4 +64,6 @@ for key in solution_per_task:
         else:
             with open("Bewertung.txt", "a", encoding="utf-8") as f:
                 f.write("Keine passende Zelle gefunden.\n")
+
+print("Fertig!")
 

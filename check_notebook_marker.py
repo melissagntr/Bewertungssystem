@@ -1,6 +1,7 @@
 import nbformat
+import os
 
-notebook_file = "Testbook.ipynb" #evtl. dynamisch gestalten: der Student muss den Dateinamen angeben
+notebook_file = "Testbook.ipynb" #evtl. dynamisch gestalten: der Student muss den Dateinamen angeben 
 cell_marker = ["###Aufgabe 1", "###Aufgabe 2"]
 
 def check_notebook_for_marker(notebook_path, marker):
@@ -16,8 +17,7 @@ def check_notebook_for_marker(notebook_path, marker):
     except Exception as e:
         return f"Fehler beim Lesen des Notebooks: {e}"
     
-with open("result.txt", "w", encoding="utf-8") as f:
-    pass
+os.remove("result.txt") # Löscht die Datei, falls sie schon existiert
 
 for marker in cell_marker:
     result = check_notebook_for_marker(notebook_file, marker)
@@ -28,3 +28,6 @@ for marker in cell_marker:
             f.write(f" Die Zelle mit '{marker}' wurde NICHT gefunden.\n")
         else:
             f.write(f" {result}\n")
+
+
+print("Fertig!")
