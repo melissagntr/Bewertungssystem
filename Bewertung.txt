@@ -1,2 +1,5 @@
 Keine passende Zelle gefunden.
+<<<<<<< HEAD
 Das Ergebnis ist richtig.
+=======
+>>>>>>> eaec24843202c0b77c794e4688fb325116cb003d
