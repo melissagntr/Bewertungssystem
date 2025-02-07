@@ -1,6 +1,2 @@
-<<<<<<< HEAD
  Die Zelle mit '###Aufgabe 1' wurde NICHT gefunden.
  Die Zelle mit '###Aufgabe 2' wurde gefunden.
-=======
- Die Zelle mit '###Aufgabe 1' wurde gefunden.
->>>>>>> c95d24f2bfcca5af8f613bf3d81a9b21e888ba8b
