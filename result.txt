@@ -1,2 +1,0 @@
- Die Zelle mit '###Aufgabe 1' wurde NICHT gefunden.
- Die Zelle mit '###Aufgabe 2' wurde gefunden.
