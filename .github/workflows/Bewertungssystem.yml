@@ -15,6 +15,9 @@ jobs:
       - name: Repository auschecken
         uses: actions/checkout@v3
 
+      - name: Lösche die result.txt
+        run: rm -f result.txt
+
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
 
@@ -54,6 +57,9 @@ jobs:
 
       - name: Repository auschecken
         uses: actions/checkout@v3
+
+      - name: Lösche die Bewertung.txt
+        run: rm -f Bewertung.txt
 
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
