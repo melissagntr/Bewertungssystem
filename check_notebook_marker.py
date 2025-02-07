@@ -17,7 +17,7 @@ def check_notebook_for_marker(notebook_path, marker):
     except Exception as e:
         return f"Fehler beim Lesen des Notebooks: {e}"
     
-os.remove("result.txt") # Löscht die Datei, falls sie schon existiert
+#os.remove("result.txt") # Löscht die Datei, falls sie schon existiert
 
 for marker in cell_marker:
     result = check_notebook_for_marker(notebook_file, marker)
