@@ -92,3 +92,32 @@ Dieses Dokument dient dazu, die einzelnen Zeilen des GitHub Workflows zu erklär
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           git pull --no-rebase
           git push
+
+    angepasster Push ins Repo: --> VERWORFEN
+      run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add result.txt
+          git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty --no-verify
+          for attempt in {1..3}
+          do
+            git pull --rebase origin main && git push && break
+            echo "Push-Versuch $attempt fehlgeschlagen. Warte 5 Sekunden und versuche es erneut..."
+            sleep 5
+          done
+          --> Einbindung einer Schleife, welche 3x ausgeführt werden soll, wenn der erste rebase & push fehlschlägt, soll der Vorgang nach 5 Sekunden erneut versucht werden
+
+      Ergänzung eines Steps im Workflow:
+     - name: Lösche die result.txt, wenn sie existiert
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -f result.txt ]; then
+            git rm result.txt
+            git commit -m "Löschen der Datei result.txt"
+          else
+            echo "result.txt existiert nicht und wurde daher nicht gelöscht"
+          fi
+          --> stellt sicher, dass mit jedem Push die Datei erneut ins Repo gepusht wird, auch wenn keine Änderungen vorhanden sind 
+          --> prüft jedoch vorher, ob die Datei überhaupt im Repo vorhanden ist, da sie nur dann gelöscht werden kann, wenn sie auch im Repo vorliegt; andererseits würde der Befehl auf einen Fehler laufen
+          
