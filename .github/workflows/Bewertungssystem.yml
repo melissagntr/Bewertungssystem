@@ -16,7 +16,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Lösche die result.txt
-        run: rm -f result.txt
+        run: |
+          rm -f result.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Löschen der Datei result.txt" --allow-empty
 
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
@@ -59,7 +63,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Lösche die Bewertung.txt
-        run: rm -f Bewertung.txt
+        run: |
+          rm -f Bewertung.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Löschen der Datei Bewertung.txt" --allow-empty
 
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
