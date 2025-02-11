@@ -1,2 +1,0 @@
- Die Zelle mit '###Aufgabe 1' wurde gefunden.
- Die Zelle mit '###Aufgabe 2' wurde gefunden.
