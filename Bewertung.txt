@@ -1,2 +1,1 @@
-Das Ergebnis 2 ist richtig.
-Das Ergebnis Hello World ist richtig.
+Die Lösung 3 ist falsch. Die richtige Lösung lautet: 2 
