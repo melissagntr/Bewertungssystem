@@ -19,8 +19,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f Aufgaben/01/result.txt ]; then
-            git rm Aufgaben/01/result.txt
+          if [ -f result.txt ]; then
+            git rm result.txt
             git commit -m "Löschen der Datei result.txt"
           else
             echo "result.txt existiert nicht und wurde daher nicht gelöscht"
