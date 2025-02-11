@@ -63,29 +63,18 @@ jobs:
       - name: Repository auschecken
         uses: actions/checkout@v3
 
-      - name: Lösche die Bewertung.txt, wenn sie existiert
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f Aufgaben/01/Bewertung.txt ]; then
-            git rm Aufgaben/01/Bewertung.txt
-            git commit -m "Löschen der Datei Bewertung.txt"
-          else
-            echo "Bewertung.txt existiert nicht und wurde daher nicht gelöscht"
-          fi
-
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
 
       - name: Führe Code aus und bewerte das Ergebnis
         run: python grading.py
 
-      - name: Pushe die Bewertung.txt ins Repository
+      - name: Pushe das aktualisierte Jupyter Notebook ins Repository
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add Aufgaben/01/Bewertung.txt
-          git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty --no-verify
+          git add Testbook.ipynb
+          git commit -m "Automatische Bewertung ins Notebook eingefügt"
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           git pull --no-rebase
           git push
