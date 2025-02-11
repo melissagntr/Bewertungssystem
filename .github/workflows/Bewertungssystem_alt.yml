@@ -1,4 +1,4 @@
-name: Automatische Bewertung des Jupyter Notebooks in neuer Umgebung
+name: Automatische Bewertung des Jupyter Notebooks
 
 on:
   push:
@@ -19,8 +19,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f Aufgaben/01/result.txt ]; then
-            git rm Aufgaben/01/result.txt
+          if [ -f result.txt ]; then
+            git rm result.txt
             git commit -m "Löschen der Datei result.txt"
           else
             echo "result.txt existiert nicht und wurde daher nicht gelöscht"
@@ -30,7 +30,7 @@ jobs:
         run: pip install nbformat
 
       - name: Suche nach Markierung im Jupyter Notebook
-        run: python check_notebook_marker.py
+        run: python check_notebook_marker_alt.py
 
       - name: Veränderung des Zeitstempels von result.txt
         run: touch result.txt
@@ -39,7 +39,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add Aufgaben/01/result.txt
+          git add result.txt
           git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty --no-verify
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           git pull --no-rebase
@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: result-file
-          path: Aufgaben/01/result.txt
+          path: result.txt
 
   bewerten_notebook:
     runs-on: ubuntu-latest
@@ -70,8 +70,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f Aufgaben/01/Bewertung.txt ]; then
-            git rm Aufgaben/01/Bewertung.txt
+          if [ -f Bewertung.txt ]; then
+            git rm Bewertung.txt
             git commit -m "Löschen der Datei Bewertung.txt"
           else
             echo "Bewertung.txt existiert nicht und wurde daher nicht gelöscht"
@@ -81,7 +81,7 @@ jobs:
         run: pip install nbformat
 
       - name: Führe Code aus und bewerte das Ergebnis
-        run: python check_solution.py
+        run: python check_solution_alt.py
 
       - name: Veränderung des Zeitstempels von Bewertung.txt
         run: touch Bewertung.txt
@@ -90,7 +90,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add Aufgaben/01/Bewertung.txt
+          git add Bewertung.txt
           git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty --no-verify
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           git pull --no-rebase
