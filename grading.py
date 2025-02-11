@@ -67,7 +67,7 @@ if __name__ == "__main__":
         speichere_notebook(notebook_file, nb)
         print("Bewertung wurde in das Notebook eingefügt.")
     else:
-        print("⚠Keine passende Zelle gefunden.")    
+        print("Keine passende Zelle gefunden.")    
 
-print("Fertig!")
+
 
