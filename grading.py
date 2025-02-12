@@ -16,11 +16,11 @@ os.remove("Bewertung.txt") # Löscht die Datei, falls sie schon existiert
 def finde_loesung_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
         nb = nbformat.read(f, as_version=4)
-    
-    for cell in nb.cells:
+
+    for i, cell in enumerate(nb.cells):
         if cell.cell_type == "code" and marker in cell.source:
-            return cell.source  
-    return None
+            return nb, i, cell.source 
+    return None, None, None
 
 def fuehre_code_aus(code):
     try:
@@ -39,29 +39,35 @@ def fuehre_code_aus(code):
     # return result
 
 
-def schreibe_bewertung(output, erwartet):
+def schreibe_bewertung(nb, index, output, erwartet):
     # Da der Output als String herauskommt
     try:
         output = eval(output)
     except:
         pass
 
-    with open("Bewertung.txt", "a", encoding="utf-8") as f:
-        if output == erwartet:
-            f.write(f"Das Ergebnis {output} ist richtig.\n")
-        else:
-            f.write(f"Die Lösung {output} ist falsch. Die richtige Lösung lautet: {erwartet} \n")
+    if output == erwartet:
+        text = "Das Ergebnis ist korrekt."
+    else:
+        text = "Das Ergebnis ist falsch."
 
+    markdown_zelle = nbformat.v4.new_markdown_cell(text)
+    nb.cells.insert(index + 1, markdown_zelle)
+
+def speichere_notebook(notebook_path, nb):
+    with open(notebook_path, 'w', encoding='utf-8') as f:
+        nbformat.write(nb, f)
 
 if __name__ == "__main__":
-    code = finde_loesung_zelle(notebook_file, cell_marker)
+    nb, index, code = finde_loesung_zelle(notebook_file, cell_marker)
         
     if code:
-            output = fuehre_code_aus(code)
-            schreibe_bewertung(output, solution)
+        output = fuehre_code_aus(code)
+        schreibe_bewertung(nb, index, output, solution)
+        speichere_notebook(notebook_file, nb)
+        print("Bewertung wurde in das Notebook eingefügt.")
     else:
-        with open("Bewertung.txt", "w", encoding="utf-8") as f:
-                f.write("Keine passende Zelle gefunden.\n")
+        print("Keine passende Zelle gefunden.")    
 
-print("Fertig!")
+
 
