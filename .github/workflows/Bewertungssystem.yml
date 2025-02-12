@@ -19,7 +19,7 @@ jobs:
         run: pip install nbformat
 
       - name: Führe Code aus und bewerte das Ergebnis
-        run: python grading.py
+        run: python Bewertung/Bewertung.py
 
       - name: Pushe das aktualisierte Jupyter Notebook ins Repository
         run: |
