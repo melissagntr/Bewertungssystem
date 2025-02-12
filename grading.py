@@ -11,7 +11,7 @@ notebook_file = "Testbook.ipynb" #evtl. dynamisch gestalten: der Student muss de
 cell_marker = "###Aufgabe 1"
 solution = 2
 
-os.remove("Bewertung.txt") # Löscht die Datei, falls sie schon existiert
+#os.remove("Bewertung.txt")
 
 def finde_loesung_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
