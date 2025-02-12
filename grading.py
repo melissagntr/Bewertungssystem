@@ -48,7 +48,7 @@ def schreibe_bewertung(nb, index, output, erwartet):
 
     if output == erwartet:
         text = "Das Ergebnis ist korrekt."
-    elif:
+    else:
         text = "Das Ergebnis ist falsch."
 
     markdown_zelle = nbformat.v4.new_markdown_cell(text)
