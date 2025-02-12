@@ -6,10 +6,12 @@ import os
 
 
 notebook_datei = "Aufgaben/01/01Aufgabe.ipynb"
-# cell_marker = ["###Aufgabe 1", "###Aufgabe 2"]
-# solution = [2, "Hello World"]
-cell_marker = "###Aufgabe 1"
-loesung = 2
+solution_per_task = {
+    "Aufgabe 1": 2,
+    "Aufgabe 2": "Hello World"
+}
+#cell_marker = "###Aufgabe 1"
+#loesung = 2
 
 def suche_loesungs_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
@@ -60,16 +62,17 @@ def speichere_notebook(notebook_path, nb):
     with open(notebook_path, 'w', encoding='utf-8') as f:
         nbformat.write(nb, f)
 
-if __name__ == "__main__":
-    nb, index, code = suche_loesungs_zelle(notebook_datei, cell_marker)
-        
-    if code:
-        output = fuehre_code_aus(code)
-        schreibe_bewertung(nb, index, output, loesung)
-        speichere_notebook(notebook_datei, nb)
-        print("Bewertung wurde in das Notebook eingefügt.")
-    else:
-        print("Keine passende Zelle gefunden.")    
+for key in solution_per_task:
+    if __name__ == "__main__":
+        nb, index, code = suche_loesungs_zelle(notebook_datei, key)
+            
+        if code:
+            output = fuehre_code_aus(code)
+            schreibe_bewertung(nb, index, output, solution_per_task[key])
+            speichere_notebook(notebook_datei, nb)
+            print("Bewertung wurde in das Notebook eingefügt.")
+        else:
+            print("Keine passende Zelle gefunden.")    
 
 
 
