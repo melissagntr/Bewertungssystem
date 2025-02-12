@@ -65,8 +65,8 @@ if __name__ == "__main__":
         
     if code:
         output = fuehre_code_aus(code)
-        schreibe_bewertung(nb, index, output, solution)
-        speichere_notebook(notebook_file, nb)
+        schreibe_bewertung(nb, index, output, loesung)
+        speichere_notebook(notebook_datei, nb)
         print("Bewertung wurde in das Notebook eingefügt.")
     else:
         print("Keine passende Zelle gefunden.")    
