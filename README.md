@@ -1,25 +1,25 @@
-Dieses Dokument dient dazu, die einzelnen Zeilen des GitHub Workflows zu erklären.
+Die folgenden Kommentare dienen dazu, die einzelnen Zeilen des GitHub Workflows zu erklären.
 
-    name: Automatische Bewertung des Jupyter Notebooks 
-    --> Name des Workflows, welche unter GitHub Actions angezeigt wird.
+    name: Automatische Bewertung des Jupyter Notebooks
+    --> Name des Workflows, welcher unter GitHub Actions angezeigt wird
 
     on:
-    push:
+      push:
         branches:
-        - main 
-    --> Definition des Events, welches getriggered werden muss, damit die nachfolgenden Jobs ausgeführt werden
-    --> bei einem Push auf den main Branch
+          - main 
+    --> Definition des Events, welches den Workflow auslösen soll
+    --> in diesem Fall sobald ein push auf den main-Branch erfolgt
 
     jobs:
-    check_cell:
-    --> Name des ersten Jobs
+      bewerten_notebook:
+      --> Name des Jobs, welches bei Auslösen des Events ausgeführt werden soll
         runs-on: ubuntu-latest
         --> Angabe auf welchem Betriebssystem der Job ausgeführt werden soll
         --> die neueste Version von Ubuntu in einer virutellen Umgebung
         permissions:
-        contents: write
+          contents: write
         --> Definition von Berechtigungen
-        --> mittels write auf contents erhält der Workflow ein Schreibrecht auf das Repository (um die erstelle Textdatei auf das Repository zu pushen)
+        --> mittels write auf contents erhält der Workflow ein Schreibrecht auf das Repository (somit hat der Workflow das Recht, das neue Jupyter Notebook auf das Repo zu pushen
 
     steps:
     --> da der Job aus mehreren Abfolgen besteht, werden diese in verschiedene Steps unterteilt
@@ -31,93 +31,120 @@ Dieses Dokument dient dazu, die einzelnen Zeilen des GitHub Workflows zu erklär
         run: pip install nbformat
         --> führt den angegebenen Shell-Befehl aus, um die Python Bibliothek nbformat zu installieren, mit der Jupyter Notebooks analysiert und verarbeitet werden können; ohne diesen Befehl, könnte das darauffolgende Python Programm nicht ausgeführt werden
 
-      - name: Suche nach Markierung im Jupyter Notebook
-        run: python check_notebook_marker.py
+      - name: Führe Code aus und bewerte das Ergebnis
+        run: python Bewertung/Bewertung.py
         --> führt die Python-Datei, welche sich im Repo befindet, aus 
 
-      - name: Pushe die result.txt ins Repository
+      - name: Pushe das aktualisierte Jupyter Notebook ins Repository
         run: |
-        --> senkrechter Strich als Shell-Befehl welcher angibt, dass nun mehrere Shell-Befehle nacheinander ausgeführt werden sollen
+          --> senkrechter Strich als Shell-Befehl welcher angibt, dass nun mehrere Shell-Befehle nacheinander ausgeführt werden sollen
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          --> beide Schritte dienen der Konfiguration eine Git-Nutzes, welche den darauffolgenden Commits zugeordnet werden (ohne diese, könnten keine Commits aus das Repp erfolgen, da Git diese einem Nutzer zuweisen muss)
-          git add result.txt
-          --> die innerhalb der Python-Datei erstellte result.txt wird für den nächsten Commit registiert
-          git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty
-          --> erstellt einen neuen Git-Commit mit der eingegebenen Nachricht, zusätzlich wird mittels allow-empty angegeben, dass auch dann ein Commit erstellt werden darf, wenn keine Änderungen bezüglich der result.txt festzustellen sind; ohne eine Änderung an der Datei würde sonst kein Commit erstellt werden
-          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe stattdessen Merge durch")
+           --> beide Schritte dienen der Konfiguration eine Git-Nutzes, welche den darauffolgenden Commits zugeordnet werden (ohne diese, könnten keine Commits aus das Repo erfolgen, da Git diese einem Nutzer zuweisen muss)
+          git add Aufgaben/01/01Aufgabe.ipynb
+          --> das durch die Python-Datei veränderte Jupyter Notebook wird für den nächsten Commit registirert
+          git commit -m "Automatische Bewertung ins Notebook eingefügt" --allow-empty
+          --> erstellt einen neuen Git-Commit mit der eingegebenen Nachricht, zusätzlich wird mittels allow-empty angegeben, dass auch dann ein Commit erstellt werden darf, wenn keine Änderungen bezüglich des Jupyter Noteboosk festzustellen sind; ohne eine Änderung an der Datei würde sonst kein Commit erstellt werden
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           --> der erste Befehl versucht, die neuesten Änderungen aus dem main Branch zu pullen und in den aktuellen Stand einzuführen
-          --> der zweite Befehl wir dann ausgeführt, wenn beim ersten ein Fehler auftritt, dieser bricht --rebase ab und gibt den Text wieder, dass ein normaler Merge durhcgeführt werden soll
+          --> der zweite Befehl wir dann ausgeführt, wenn beim ersten ein Fehler auftritt, dieser bricht --rebase ab und gibt den Text wieder, dass ein normaler Merge durchgeführt werden soll
           git pull --no-rebase
           --> hiermit wird ein normale Git-Pull ausgeführt 
           git push
-          --> pusht den neu erstellten Commit mitsamt der result.txt in das Repo
+          --> push den neu erstellten Commit mitsamt des Jupyter Notebooks in das Repo
 
-      - name: Speichere result.txt als Artifact
-      --> Artifacts sind Dateien, die zwischen verschiedenen Jobs oder Runs in GitHub Actions gespeichert und abgerufen werden können
-        uses: actions/upload-artifact@v4
-        --> Verwendung einer vorgefertigten GitHub Actions zum Hochladen des Artifacts, welches vom nächsten Job benutzt werden soll
-        with:
-          name: result-file
-          path: result.txt
+Die folgenden Kommentare dienen dazu, die Python-Datei näher zu erläutern:
 
-    bewerten_notebook:
-        runs-on: ubuntu-latest
-        permissions:
-        contents: write
-        needs: check_cell
-        --> diese Job wird erst ausgeführt, wenn der Job mit dem Namen check_cell ausgeführt wurde
+    import nbformat
+    import subprocess
+    import os
+    #import requests
+    #URL = "http://localhost:8888"
 
-    steps:
-      - name: Lade result.txt herunter
-        uses: actions/download-artifact@v4
-        with:
-          name: result-file
 
-      - name: Repository auschecken
-        uses: actions/checkout@v3
+    notebook_datei = "Aufgaben/01/01Aufgabe.ipynb"
+    solution_per_task = {
+        "Aufgabe 1": 2,
+        "Aufgabe 2": "Hello World"
+    }
+    #cell_marker = "###Aufgabe 1"
+    #loesung = 2
 
-      - name: Installiere Abhängigkeiten
-        run: pip install nbformat
+    def suche_loesungs_zelle(notebook, marker):
+        with open(notebook, 'r', encoding='utf-8') as f:  --> das Notebook wird im Lesemodus geöffnet
+            nb = nbformat.read(f, as_version=4)           --> die Variable enthält das Jupyter Notebooks als Dictionary, welches als
+                                                              eine Liste von Zellen aufgeteilt ist
 
-      - name: Führe Code aus und bewerte das Ergebnis
-        run: python check_solution.py
+        for i, cell in enumerate(nb.cells):                         --> das Dictionary wird Zelle für Zelle durchgegangen, die aktuelle
+                                                                        Zelle wird mit einem Index i versehen
+            if cell.cell_type == "code" and marker in cell.source:  --> wenn es sich bei der Zelle um eine Codezelle handelt, und auch
+                                                                        der oben definierte marker im Source-Code enthalten sind
+                return nb, i, cell.source                               werden nb (siehe unten), der index der Zelle, welcher mit der
+        return None, None, None                                         for-Schleife generiert wird und der Inhalr der Code-Zelle
+                                                                        zurückgegeben werden
+    nb ist wie folgt aufgebaut:
+    {'cells': 
+      [{'cell_type': 'markdown', 'metadata': {}, 'source': 'Aufgabe 1: Schreiben Sie ein Programm, welches die Zahl 2 zurückgibt.'}, {'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': '###Aufgabe 1\n\n# Ihre Lösung hier\nprint(1)'}, 
+      {'cell_type': 'markdown', 'metadata': {}, 'source': 'Das Ergebnis ist falsch.'}, 
+      {'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': '###Aufgabe 2\n\n# Ihre Lösung hier\nprint("Hello")'}, 
+      {'cell_type': 'markdown', 'id': 'a720254c', 'metadata': {}, 'source': 'Das Ergebnis ist falsch.'}], 'metadata': {'language_info': {'name': 'python'}}, 'nbformat': 4, 'nbformat_minor': 2}
 
-      - name: Pushe die Bewertung.txt ins Repository
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add Bewertung.txt
-          git commit -m "Ausführen und Bewerten der Lösung erfolgreich ausgeführt." --allow-empty
-          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
-          git pull --no-rebase
-          git push
+    bei ausgeführter Zelle ist nb wie folgt aufgebaut:
+    {'cells': 
+      [{'cell_type': 'markdown', 'metadata': {}, 'source': 'Aufgabe 1: Schreiben Sie ein Programm, welches die Zahl 2 zurückgibt.'}, {'cell_type': 'code', 'execution_count': 1, 'metadata': {}, 'outputs': [{'name': 'stdout', 'output_type': 'stream', 'text': '1\n'}], 'source': '###Aufgabe 1\n\n# Ihre Lösung hier\nprint(1)'}, 
+      {'cell_type': 'markdown', 'metadata': {}, 'source': 'Das Ergebnis ist falsch.'}, 
+      {'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': '###Aufgabe 2\n\n# Ihre Lösung hier\nprint("Hello")'}, 
+      {'cell_type': 'markdown', 'id': 'a720254c', 'metadata': {}, 'source': 'Das Ergebnis ist falsch.'}], 
+      'metadata': {'kernelspec': {'display_name': 'Python 3', 'language': 'python', 'name': 'python3'}, 'language_info': {'codemirror_mode': {'name': 'ipython', 'version': 3}, 'file_extension': '.py', 'mimetype': 'text/x-python', 'name': 'python', 'nbconvert_exporter': 'python', 'pygments_lexer': 'ipython3', 'version': '3.11.5'}}, 'nbformat': 4, 'nbformat_minor': 2}
 
-    angepasster Push ins Repo: --> VERWORFEN
-      run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add result.txt
-          git commit -m "Überprüfung, ob gesuchte Zelle vorhanden ist, erfolgreich." --allow-empty --no-verify
-          for attempt in {1..3}
-          do
-            git pull --rebase origin main && git push && break
-            echo "Push-Versuch $attempt fehlgeschlagen. Warte 5 Sekunden und versuche es erneut..."
-            sleep 5
-          done
-          --> Einbindung einer Schleife, welche 3x ausgeführt werden soll, wenn der erste rebase & push fehlschlägt, soll der Vorgang nach 5 Sekunden erneut versucht werden
+    def fuehre_code_aus(code):
+        try:
+            result = subprocess.run(                        --> durch subprocess.run wird der Code über ein Terminal als separaten
+                ["python", "-c", code],                         Prozess ausgeführt
+                capture_output=True, text=True, timeout=5
+            )     
+            return result.stdout.strip()                    --> gibt die Ausgabe des Codes zurück, ohne überflüssige Leerzeichen etc.
+        except Exception as e:
+            return f"Fehler: {str(e)}"
 
-      Ergänzung eines Steps im Workflow:
-     - name: Lösche die result.txt, wenn sie existiert
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f result.txt ]; then
-            git rm result.txt
-            git commit -m "Löschen der Datei result.txt"
-          else
-            echo "result.txt existiert nicht und wurde daher nicht gelöscht"
-          fi
-          --> stellt sicher, dass mit jedem Push die Datei erneut ins Repo gepusht wird, auch wenn keine Änderungen vorhanden sind 
-          --> prüft jedoch vorher, ob die Datei überhaupt im Repo vorhanden ist, da sie nur dann gelöscht werden kann, wenn sie auch im Repo vorliegt; andererseits würde der Befehl auf einen Fehler laufen
-          
+    #def erhalte_bewertung(code):
+        # headers = {"code": code}
+        # response = requests.post(URL, headers=headers)
+
+        # result = response.text
+        # return result
+
+
+    def schreibe_bewertung(nb, index, output, erwartet):
+        # Da der Output als String herauskommt
+        try:
+            output = eval(output)
+        except:
+            pass
+
+        if output == erwartet:
+            text = "Das Ergebnis ist korrekt."
+        else:
+            text = "Das Ergebnis ist falsch."
+
+        if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
+            nb.cells[index + 1].source = text  
+        else:
+            markdown_zelle = nbformat.v4.new_markdown_cell(text)
+            nb.cells.insert(index + 1, markdown_zelle) 
+
+    def speichere_notebook(notebook_path, nb):
+        with open(notebook_path, 'w', encoding='utf-8') as f:
+            nbformat.write(nb, f)
+
+    for key in solution_per_task:
+        if __name__ == "__main__":
+            nb, index, code = suche_loesungs_zelle(notebook_datei, key)
+                
+            if code:
+                output = fuehre_code_aus(code)
+                schreibe_bewertung(nb, index, output, solution_per_task[key])
+                speichere_notebook(notebook_datei, nb)
+                print("Bewertung wurde in das Notebook eingefügt.")
+            else:
+                print("Keine passende Zelle gefunden.")    
