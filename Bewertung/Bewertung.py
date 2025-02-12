@@ -5,13 +5,13 @@ import os
 #URL = "http://localhost:8888"
 
 
-notebook_file = "Aufgaben/01/01Aufgabe.ipynb" #evtl. dynamisch gestalten: der Student muss den Dateinamen angeben
+notebook_datei = "Aufgaben/01/01Aufgabe.ipynb"
 # cell_marker = ["###Aufgabe 1", "###Aufgabe 2"]
 # solution = [2, "Hello World"]
 cell_marker = "###Aufgabe 1"
-solution = 2
+loesung = 2
 
-def finde_loesung_zelle(notebook, marker):
+def suche_loesungs_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
         nb = nbformat.read(f, as_version=4)
 
@@ -29,7 +29,8 @@ def fuehre_code_aus(code):
         return result.stdout.strip()
     except Exception as e:
         return f"Fehler: {str(e)}"
-    
+
+#def erhalte_bewertung(code):
     # headers = {"code": code}
     # response = requests.post(URL, headers=headers)
 
@@ -60,7 +61,7 @@ def speichere_notebook(notebook_path, nb):
         nbformat.write(nb, f)
 
 if __name__ == "__main__":
-    nb, index, code = finde_loesung_zelle(notebook_file, cell_marker)
+    nb, index, code = suche_loesungs_zelle(notebook_datei, cell_marker)
         
     if code:
         output = fuehre_code_aus(code)
