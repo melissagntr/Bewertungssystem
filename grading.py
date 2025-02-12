@@ -11,7 +11,7 @@ notebook_file = "Testbook.ipynb" #evtl. dynamisch gestalten: der Student muss de
 cell_marker = "###Aufgabe 1"
 solution = 2
 
-os.remove("Bewertung.txt") # Löscht die Datei, falls sie schon existiert
+#os.remove("Bewertung.txt")
 
 def finde_loesung_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
@@ -51,8 +51,11 @@ def schreibe_bewertung(nb, index, output, erwartet):
     else:
         text = "Das Ergebnis ist falsch."
 
-    markdown_zelle = nbformat.v4.new_markdown_cell(text)
-    nb.cells.insert(index + 1, markdown_zelle)
+    if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
+        nb.cells[index + 1].source = text  
+    else:
+        markdown_zelle = nbformat.v4.new_markdown_cell(text)
+        nb.cells.insert(index + 1, markdown_zelle) 
 
 def speichere_notebook(notebook_path, nb):
     with open(notebook_path, 'w', encoding='utf-8') as f:
