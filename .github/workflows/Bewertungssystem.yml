@@ -26,7 +26,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add Testbook.ipynb
-          git commit -m "Automatische Bewertung ins Notebook eingefügt"
+          git commit -m "Automatische Bewertung ins Notebook eingefügt" --allow-empty
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           git pull --no-rebase
           git push
