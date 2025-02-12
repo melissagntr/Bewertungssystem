@@ -30,6 +30,6 @@ jobs:
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
           git pull --no-rebase
           git stash pop || echo "Kein Stash zum Wiederherstellen"
-          git add Testbook.ipynb
+          git add -A
           git commit -m "Automatische Bewertung ins Notebook eingefügt"
           git push
