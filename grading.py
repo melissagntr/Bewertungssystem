@@ -5,7 +5,7 @@ import os
 #URL = "http://localhost:8888"
 
 
-notebook_file = "Testbook.ipynb" #evtl. dynamisch gestalten: der Student muss den Dateinamen angeben
+notebook_file = "Aufgaben/01/01Aufgabe.ipynb" #evtl. dynamisch gestalten: der Student muss den Dateinamen angeben
 # cell_marker = ["###Aufgabe 1", "###Aufgabe 2"]
 # solution = [2, "Hello World"]
 cell_marker = "###Aufgabe 1"
