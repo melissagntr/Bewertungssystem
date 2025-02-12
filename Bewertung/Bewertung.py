@@ -10,6 +10,7 @@ solution_per_task = {
     "Aufgabe 1": 2,
     "Aufgabe 2": "Hello World"
 }
+
 #cell_marker = "###Aufgabe 1"
 #loesung = 2
 
