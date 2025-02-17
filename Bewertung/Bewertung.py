@@ -7,8 +7,8 @@ import os
 
 notebook_datei = "Aufgaben/01/01Aufgabe.ipynb"
 solution_per_task = {
-    "Aufgabe 1": 2,
-    "Aufgabe 2": "Hello World"
+    "###Aufgabe 1": 2,
+    "###Aufgabe 2": "Hello World"
 }
 
 #cell_marker = "###Aufgabe 1"
