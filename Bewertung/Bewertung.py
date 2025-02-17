@@ -17,7 +17,6 @@ solution_per_task = {
 def suche_loesungs_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
         nb = nbformat.read(f, as_version=4)
-        print(nb)
 
     for i, cell in enumerate(nb.cells):
         if cell.cell_type == "code" and marker in cell.source:
