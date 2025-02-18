@@ -17,11 +17,12 @@ jobs:
       - name: Repository auschecken
         uses: actions/checkout@v3
 
-      - name: Lade vorherigen Zähler, falls vorhanden
+      - name: Lade vorherigen Zähler
         uses: actions/download-artifact@v4
         with:
           name: bewertungs_zaehler
           path: .
+        continue-on-error: true
 
       - name: Erstelle oder erhöhe Zähler
         run: |
