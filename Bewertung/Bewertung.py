@@ -13,11 +13,6 @@ solution_per_task = {
 #cell_marker = "###Aufgabe 1"
 #loesung = 2
 
-if len(sys.argv) > 1:
-    counter = int(sys.argv[1])
-else:
-    counter = 0
-
 def suche_loesungs_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
         nb = nbformat.read(f, as_version=4)
@@ -51,25 +46,15 @@ def schreibe_bewertung(nb, index, output, erwartet):
         output = eval(output)
     except:
         pass
-
-    if counter <= 3:
-        if output == erwartet:
-            text = "Das Ergebnis ist korrekt."
-        else:
-            text = "Das Ergebnis ist falsch."
     
-        if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
-            nb.cells[index + 1].source = text  
-        else:
-            markdown_zelle = nbformat.v4.new_markdown_cell(text)
-            nb.cells.insert(index + 1, markdown_zelle) 
+    if output == erwartet:
+        text = "Das Ergebnis ist korrekt."
     else:
-        if output != erwartet:
-            text = f"Das Ergebnis ist falsch. Die richtige Lösung lautet: {erwartet}"
-
-        if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
+        text = "Das Ergebnis ist falsch."
+    
+    if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
             nb.cells[index + 1].source = text  
-        else:
+    else:
             markdown_zelle = nbformat.v4.new_markdown_cell(text)
             nb.cells.insert(index + 1, markdown_zelle) 
 
