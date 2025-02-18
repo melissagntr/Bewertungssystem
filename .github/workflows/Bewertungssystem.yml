@@ -17,40 +17,11 @@ jobs:
       - name: Repository auschecken
         uses: actions/checkout@v3
 
-      - name: Lade vorherigen Zähler
-        uses: actions/download-artifact@v4
-        with:
-          name: bewertungs_zaehler
-          path: .
-        continue-on-error: true
-
-      - name: Erstelle oder erhöhe Zähler
-        run: |
-          ZAEHLER_DATEI="Bewertung/zaehler.txt"
-          if [ -f "$ZAEHLER_DATEI" ]; then
-            ZAEHLER=$(cat "$ZAEHLER_DATEI")
-          else
-            ZAEHLER=0 
-            echo "Zähler nicht gefunden. Setze auf 0."
-          fi
-          ((ZAEHLER++))
-          echo "Vorheriger Zähler: $ZAEHLER"
-          echo "Neuer Zähler: $ZAEHLER"
-          mkdir -p Bewertung
-          echo $ZAEHLER > $ZAEHLER_DATEI
-          echo "ZAEHLER=$ZAEHLER" >> $GITHUB_ENV
-
-      - name: Speichere aktualisierten Zähler als Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: bewertungs_zaehler
-          path: Bewertung/zaehler.txt
-
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
 
       - name: Führe Code aus und bewerte das Ergebnis
-        run: python Bewertung/Bewertung.py ${{ env.ZAEHLER }}
+        run: python Bewertung/Bewertung.py
 
       - name: Pushe das aktualisierte Jupyter Notebook ins Repository
         run: |
