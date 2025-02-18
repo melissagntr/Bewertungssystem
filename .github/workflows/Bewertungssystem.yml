@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main 
+    paths:
+      - 'Aufgaben/01/01Aufgabe.ipynb'
 
 jobs:
   bewerten_notebook:
