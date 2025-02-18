@@ -30,9 +30,13 @@ jobs:
           if [ -f "$ZAEHLER_DATEI" ]; then
             ZAEHLER=$(cat "$ZAEHLER_DATEI")
           else
-            ZAEHLER=0
+            ZAEHLER=0 
+            echo "Zähler nicht gefunden. Setze auf 0."
           fi
           ((ZAEHLER++))
+          echo "Vorheriger Zähler: $ZAEHLER"
+          echo "Neuer Zähler: $ZAEHLER"
+          mkdir -p Bewertung
           echo $ZAEHLER > $ZAEHLER_DATEI
           echo "ZAEHLER=$ZAEHLER" >> $GITHUB_ENV
 
