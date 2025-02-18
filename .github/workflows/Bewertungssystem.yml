@@ -25,7 +25,7 @@ jobs:
 
       - name: Erstelle oder erhöhe Zähler
         run: |
-          ZAEHLER_DATEI="zaehler.txt"
+          ZAEHLER_DATEI="Bewertung/01/zaehler.txt"
           if [ -f "$ZAEHLER_DATEI" ]; then
             ZAEHLER=$(cat "$ZAEHLER_DATEI")
           else
@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bewertungs_zaehler
-          path: zaehler.txt
+          path: Bewertung/01/zaehler.txt
 
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
