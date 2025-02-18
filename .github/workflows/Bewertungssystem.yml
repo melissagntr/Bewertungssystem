@@ -3,7 +3,7 @@ name: Automatische Bewertung des Jupyter Notebooks in neuer Umgebung
 on:
   push:
     branches:
-      - main 
+      - main
     paths:
       - 'Aufgaben/01/01Aufgabe.ipynb'
 
@@ -17,11 +17,37 @@ jobs:
       - name: Repository auschecken
         uses: actions/checkout@v3
 
+      - name: Lade vorherigen Zähler, falls vorhanden
+        uses: actions/download-artifact@v3
+        with:
+          name: bewertungs_zaehler
+          path: .
+
+      - name: Erstelle oder erhöhe Zähler
+        run: |
+          ZAEHLER_DATEI="zaehler.txt"
+          if [ -f "$ZAEHLER_DATEI" ]; then
+            ZAEHLER=$(cat "$ZAEHLER_DATEI")
+          else
+            ZAEHLER=0
+          fi
+          echo "Vorheriger Zähler: $ZAEHLER"
+          ((ZAEHLER++))
+          echo $ZAEHLER > $ZAEHLER_DATEI
+          echo "Neuer Zähler: $ZAEHLER"
+          echo "ZAEHLER=$ZAEHLER" >> $GITHUB_ENV
+
+      - name: Speichere aktualisierten Zähler als Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bewertungs_zaehler
+          path: zaehler.txt
+
       - name: Installiere Abhängigkeiten
         run: pip install nbformat
 
       - name: Führe Code aus und bewerte das Ergebnis
-        run: python Bewertung/Bewertung.py
+        run: python Bewertung/Bewertung.py ${{ env.ZAEHLER }}
 
       - name: Pushe das aktualisierte Jupyter Notebook ins Repository
         run: |
