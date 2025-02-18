@@ -1,6 +1,6 @@
 import nbformat #Modul, das Jupyter-Notebooks als strukturiertes JSON-Format (Dictionary) speichert
 import subprocess
-import os
+import sys
 #import requests
 #URL = "http://localhost:8888"
 
@@ -10,9 +10,13 @@ solution_per_task = {
     "###Aufgabe 1": 2,
     "###Aufgabe 2": "Hello World"
 }
-
 #cell_marker = "###Aufgabe 1"
 #loesung = 2
+
+if len(sys.argv) > 1:
+    counter = int(sys.argv[1])
+else:
+    counter = 0
 
 def suche_loesungs_zelle(notebook, marker):
     with open(notebook, 'r', encoding='utf-8') as f:
@@ -48,16 +52,26 @@ def schreibe_bewertung(nb, index, output, erwartet):
     except:
         pass
 
-    if output == erwartet:
-        text = "Das Ergebnis ist korrekt."
+    if counter <= 3:
+        if output == erwartet:
+            text = "Das Ergebnis ist korrekt."
+        else:
+            text = "Das Ergebnis ist falsch."
+    
+        if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
+            nb.cells[index + 1].source = text  
+        else:
+            markdown_zelle = nbformat.v4.new_markdown_cell(text)
+            nb.cells.insert(index + 1, markdown_zelle) 
     else:
-        text = "Das Ergebnis ist falsch."
+        if output != erwartet:
+            text = f"Das Ergebnis ist falsch. Die richtige Lösung lautet: {erwartet}"
 
-    if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
-        nb.cells[index + 1].source = text  
-    else:
-        markdown_zelle = nbformat.v4.new_markdown_cell(text)
-        nb.cells.insert(index + 1, markdown_zelle) 
+        if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
+            nb.cells[index + 1].source = text  
+        else:
+            markdown_zelle = nbformat.v4.new_markdown_cell(text)
+            nb.cells.insert(index + 1, markdown_zelle) 
 
 def speichere_notebook(notebook_path, nb):
     with open(notebook_path, 'w', encoding='utf-8') as f:
