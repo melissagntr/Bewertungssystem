@@ -32,10 +32,8 @@ jobs:
           else
             ZAEHLER=0
           fi
-          echo "Vorheriger Zähler: $ZAEHLER"
           ((ZAEHLER++))
           echo $ZAEHLER > $ZAEHLER_DATEI
-          echo "Neuer Zähler: $ZAEHLER"
           echo "ZAEHLER=$ZAEHLER" >> $GITHUB_ENV
 
       - name: Speichere aktualisierten Zähler als Artifact
