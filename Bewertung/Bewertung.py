@@ -39,7 +39,6 @@ def fuehre_code_aus(code):
     # result = response.text
     # return result
 
-
 def schreibe_bewertung(nb, index, output, erwartet):
     # Da der Output als String herauskommt
     try:
@@ -53,10 +52,15 @@ def schreibe_bewertung(nb, index, output, erwartet):
         text = "Das Ergebnis ist falsch."
     
     if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
+        if nb.cells[index + 1].source.startswith("Das Ergebnis ist"):  
             nb.cells[index + 1].source = text  
-    else:
+        else:
             markdown_zelle = nbformat.v4.new_markdown_cell(text)
-            nb.cells.insert(index + 1, markdown_zelle) 
+            nb.cells.insert(index + 1, markdown_zelle)
+    else:
+        markdown_zelle = nbformat.v4.new_markdown_cell(text)
+        nb.cells.insert(index + 1, markdown_zelle)
+
 
 def speichere_notebook(notebook_path, nb):
     with open(notebook_path, 'w', encoding='utf-8') as f:
