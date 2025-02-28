@@ -1,4 +1,4 @@
-name: Automatische Bewertung des Jupyter Notebooks in neuer Umgebung
+name: Automatische Bewertung des Jupyter Notebooks
 
 on:
   push:
