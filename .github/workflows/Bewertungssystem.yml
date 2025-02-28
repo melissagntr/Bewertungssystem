@@ -17,7 +17,7 @@ jobs:
       - name: Repository auschecken
         uses: actions/checkout@v3
 
-      - name: Installiere Abhängigkeiten
+      - name: Installiere Nbformat
         run: pip install nbformat
 
       - name: Führe Code aus und bewerte das Ergebnis
