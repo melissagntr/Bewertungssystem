@@ -49,7 +49,6 @@ def schreibe_bewertung(nb, index, output, erwartet, counter):
     
     if output == erwartet:
         text = "Das Ergebnis ist korrekt."
-        counter += 1
     else:
         if counter < 3:
             text = "Das Ergebnis ist falsch."
