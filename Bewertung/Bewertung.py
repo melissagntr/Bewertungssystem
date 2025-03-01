@@ -54,7 +54,7 @@ def schreibe_bewertung(nb, index, output, erwartet, counter):
             text = "Das Ergebnis ist falsch."
             counter += 1
         else:
-            text = "Das Ergebnis ist falsch, das richige Ergebnis lautet: ."
+            text = f"Das Ergebnis ist falsch, das richige Ergebnis lautet: {erwartet}."
             counter += 1
     
     if index + 1 < len(nb.cells) and nb.cells[index + 1].cell_type == "markdown":
