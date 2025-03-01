@@ -33,7 +33,7 @@ def fuehre_code_aus(code):
     except Exception as e:
         return f"Fehler: {str(e)}"
     
-#def erhalte_bewertung(code):
+#def erhalte_bewertung(code, try_counter):
     # headers = {"code": code, "count": try_counter}
     # response = requests.post(URL, headers=headers)
 
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     for key in solution_per_task:
 
-        with open("Bewertung/userconfig.json", "r") as file:
+        with open("Bewertung/counter.json", "r") as file:
             userconfig = json.load(file)
 
         try_counter = userconfig[key]
