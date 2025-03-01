@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     for key in solution_per_task:
 
-        with open("Bewertung/counter.json", "r") as file:
+        with open("Bewertung/userconfig.json", "r") as file:
             userconfig = json.load(file)
 
         try_counter = userconfig[key]
