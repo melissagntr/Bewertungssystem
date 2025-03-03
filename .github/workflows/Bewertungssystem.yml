@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'student-repo/Aufgaben/01/01Aufgabe.ipynb'
+      - '**/Aufgaben/01/01Aufgabe.ipynb'
 
 jobs:
   bewerten_notebook:
