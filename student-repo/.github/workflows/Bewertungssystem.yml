@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'Aufgaben/01/01Aufgabe.ipynb'
+      - 'student-repo/Aufgaben/01/01Aufgabe.ipynb'
 
 jobs:
   bewerten_notebook:
@@ -20,7 +20,7 @@ jobs:
       - name: Installiere Nbformat
         run: pip install nbformat
 
-      - name: Haupt-Repository klonen (für Bewertung.py)
+      - name: Haupt-Repository klonen, um die Bewertung.py Datei nutzen zu können
         run: |
           git clone --depth 1 --filter=blob:none --sparse https://github.com/shawtylissy/Bewertungssystem.git main-repo
           cd main-repo
@@ -34,7 +34,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add Aufgaben/01/01Aufgabe.ipynb
+          git add student-repo/Aufgaben/01/01Aufgabe.ipynb
           git add Bewertung/userconfig.json
           git commit -m "Automatische Bewertung ins Notebook eingefügt" --allow-empty
           git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
