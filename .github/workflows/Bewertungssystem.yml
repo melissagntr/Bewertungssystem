@@ -20,8 +20,15 @@ jobs:
       - name: Installiere Nbformat
         run: pip install nbformat
 
+      - name: Haupt-Repository klonen (für Bewertung.py)
+        run: |
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/shawtylissy/Bewertungssystem.git main-repo
+          cd main-repo
+          git sparse-checkout set Bewertung
+          cd ..
+
       - name: Führe Code aus und bewerte das Ergebnis
-        run: python Bewertung/Bewertung.py
+        run: python main-repo/Bewertung/Bewertung.py
 
       - name: Pushe das aktualisierte Jupyter Notebook ins Repository
         run: |
