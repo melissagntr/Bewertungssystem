@@ -1,0 +1,35 @@
+name: Automatische Bewertung des Jupyter Notebooks
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Aufgaben/01/01Aufgabe.ipynb'
+
+jobs:
+  bewerten_notebook:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v3
+
+      - name: Installiere Nbformat
+        run: pip install nbformat
+
+      - name: Führe Code aus und bewerte das Ergebnis
+        run: python Bewertung/Bewertung.py
+
+      - name: Pushe das aktualisierte Jupyter Notebook ins Repository
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Aufgaben/01/01Aufgabe.ipynb
+          git add Bewertung/userconfig.json
+          git commit -m "Automatische Bewertung ins Notebook eingefügt" --allow-empty
+          git pull --rebase origin main || (git rebase --abort && echo "Rebase fehlgeschlagen, führe Merge durch")
+          git pull --no-rebase
+          git push
