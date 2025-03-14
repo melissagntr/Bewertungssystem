@@ -38,7 +38,9 @@ def fuehre_code_aus(code):
     # response = requests.post(URL, headers=headers)
     # if response.status_code == 200:
     #   result = response.text
-    # return result
+    #   return result
+    # else:
+    #   return "Fehler: Keine Verbindung zum Server."
 
 def schreibe_bewertung(nb, index, output, erwartet, counter):
     # Da der Output als String herauskommt
