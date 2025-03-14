@@ -36,8 +36,8 @@ def fuehre_code_aus(code):
 #def erhalte_bewertung(code, try_counter):
     # headers = {"code": code, "count": try_counter}
     # response = requests.post(URL, headers=headers)
-
-    # result = response.text
+    # if response.status_code == 200:
+    #   result = response.text
     # return result
 
 def schreibe_bewertung(nb, index, output, erwartet, counter):
