@@ -28,7 +28,9 @@ def fuehre_code_aus(code):
         result = subprocess.run(
             ["python", "-c", code],  
             capture_output=True, text=True, timeout=5
-        )     
+        )    
+        if not result.stdout.strip():
+            return None 
         return result.stdout.strip()
     except Exception as e:
         return f"Fehler: {str(e)}"
@@ -90,6 +92,11 @@ if __name__ == "__main__":
             
         if code:
             output = fuehre_code_aus(code)
+
+            if output is None:
+                print("Kein Output vorhanden.")
+                continue
+            
             new_count = schreibe_bewertung(nb, index, output, solution_per_task[key], try_counter)
             speichere_notebook(notebook_datei, nb)
             print("Bewertung wurde in das Notebook eingefügt.")
